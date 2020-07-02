@@ -48,7 +48,7 @@ import okhttp3.CertificatePinner;
 
 import static org.coralibre.android.sdk.internal.util.Base64Util.toBase64;
 
-public class DP3T {
+public class PPCP {
 
 	private static final String TAG = "DP3T Interface";
 
@@ -62,7 +62,7 @@ public class DP3T {
 
 	public static void init(Context context, String appId, boolean enableDevDiscoveryMode, PublicKey signaturePublicKey) {
 		if (ProcessUtil.isMainProcess(context)) {
-			DP3T.appId = appId;
+			PPCP.appId = appId;
 			AppConfigManager appConfigManager = AppConfigManager.getInstance(context);
 			appConfigManager.setAppId(appId);
 			appConfigManager.setDevDiscoveryModeEnabled(enableDevDiscoveryMode);
@@ -74,7 +74,7 @@ public class DP3T {
 
 	public static void init(Context context, ApplicationInfo applicationInfo, PublicKey signaturePublicKey) {
 		if (ProcessUtil.isMainProcess(context)) {
-			DP3T.appId = applicationInfo.getAppId();
+			PPCP.appId = applicationInfo.getAppId();
 			AppConfigManager appConfigManager = AppConfigManager.getInstance(context);
 			appConfigManager.setManualApplicationInfo(applicationInfo);
 
@@ -112,13 +112,9 @@ public class DP3T {
 		AppConfigManager appConfigManager = AppConfigManager.getInstance(context);
 		appConfigManager.setAdvertisingEnabled(advertise);
 		appConfigManager.setReceivingEnabled(receive);
-		long scanInterval = appConfigManager.getScanInterval();
-		long scanDuration = appConfigManager.getScanDuration();
 		Intent intent = new Intent(context, TracingService.class).setAction(TracingService.ACTION_START);
 		intent.putExtra(TracingService.EXTRA_ADVERTISE, advertise);
 		intent.putExtra(TracingService.EXTRA_RECEIVE, receive);
-		intent.putExtra(TracingService.EXTRA_SCAN_INTERVAL, scanInterval);
-		intent.putExtra(TracingService.EXTRA_SCAN_DURATION, scanDuration);
 		ContextCompat.startForegroundService(context, intent);
 		SyncWorker.startSyncWorker(context);
 		BroadcastHelper.sendUpdateBroadcast(context);
@@ -235,7 +231,7 @@ public class DP3T {
 	}
 
 	public static IntentFilter getUpdateIntentFilter() {
-		return new IntentFilter(DP3T.UPDATE_INTENT_ACTION);
+		return new IntentFilter(PPCP.UPDATE_INTENT_ACTION);
 	}
 
 	public static void clearData(Context context, Runnable onDeleteListener) {
